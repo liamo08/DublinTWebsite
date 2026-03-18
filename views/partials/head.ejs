@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= meta ? meta.title : settings.site_name %></title>
+<% if (meta && meta.description) { %><meta name="description" content="<%= meta.description %>"><% } %>
+<% if (meta && meta.keywords) { %><meta name="keywords" content="<%= meta.keywords %>"><% } %>
+<meta name="robots" content="index, follow">
+<% if (meta && meta.canonical_path) { %><link rel="canonical" href="<%= settings.base_url %><%= meta.canonical_path %>"><% } %>
+<% if (meta && meta.og_title) { %>
+<meta property="og:title" content="<%= meta.og_title %>">
+<meta property="og:description" content="<%= meta.og_description %>">
+<meta property="og:type" content="website">
+<meta property="og:url" content="<%= settings.base_url %><%= meta.canonical_path %>">
+<meta property="og:locale" content="en_IE">
+<meta property="og:site_name" content="<%= settings.site_name %>">
+<% } %>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="/css/theme.css?v=<%= Date.now() %>">
+<link rel="stylesheet" href="/css/style.css">

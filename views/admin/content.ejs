@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Content: <%= pageName %> | Admin</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <%- include('_nav') %>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Edit Content: <%= pageName %></h1>
+      <button onclick="saveAll()" class="btn-admin btn-admin--primary" id="saveBtn">Save All Changes</button>
+    </div>
+
+    <% if (meta) { %>
+    <div class="admin-section">
+      <h2>SEO & Meta</h2>
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label>Page Title</label>
+          <input type="text" data-meta="title" value="<%= meta.title %>" class="admin-input meta-field">
+        </div>
+        <div class="form-group">
+          <label>Meta Description</label>
+          <textarea data-meta="description" class="admin-input meta-field" rows="2"><%= meta.description || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label>Keywords</label>
+          <input type="text" data-meta="keywords" value="<%= meta.keywords || '' %>" class="admin-input meta-field">
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+    <div class="admin-section">
+      <h2>Content Blocks</h2>
+      <% let currentSection = ''; %>
+      <% contentRaw.forEach(block => { %>
+        <% if (block.section !== currentSection) { currentSection = block.section; %>
+        <h3 class="admin-section-label"><%= currentSection %></h3>
+        <% } %>
+        <div class="form-group">
+          <label><%= block.block_key %> <span class="form-hint"><%= block.content_type %></span></label>
+          <% if (block.content.length > 100) { %>
+          <textarea data-id="<%= block.id %>" class="admin-input content-field" rows="3"><%= block.content %></textarea>
+          <% } else { %>
+          <input type="text" data-id="<%= block.id %>" value="<%= block.content %>" class="admin-input content-field">
+          <% } %>
+        </div>
+      <% }); %>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </main>
+
+  <script>
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast toast--' + type + ' toast--visible';
+      setTimeout(() => t.classList.remove('toast--visible'), 3000);
+    }
+
+    async function saveAll() {
+      const btn = document.getElementById('saveBtn');
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      try {
+        // Save content blocks
+        const updates = [];
+        document.querySelectorAll('.content-field').forEach(el => {
+          updates.push({ id: parseInt(el.dataset.id), content: el.value });
+        });
+
+        if (updates.length) {
+          await fetch('/api/content/batch', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ updates })
+          });
+        }
+
+        // Save meta
+        const metaFields = document.querySelectorAll('.meta-field');
+        if (metaFields.length) {
+          const metaData = {};
+          metaFields.forEach(el => {
+            metaData[el.dataset.meta] = el.value;
+          });
+          await fetch('/api/meta/<%= pageName.replace(/\//g, '-') %>', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(metaData)
+          });
+        }
+
+        showToast('Saved successfully!', 'success');
+      } catch (err) {
+        showToast('Error saving: ' + err.message, 'error');
+      }
+
+      btn.textContent = 'Save All Changes';
+      btn.disabled = false;
+    }
+  </script>
+</body>
+</html>

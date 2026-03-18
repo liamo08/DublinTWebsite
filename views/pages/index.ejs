@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <%- include('../partials/head') %>
+  <% if (page === 'index') { %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "<%= settings.site_name %>",
+    "alternateName": "Dublin Tee Shirt Print",
+    "url": "<%= settings.base_url %>",
+    "telephone": "+353-57-915-2717",
+    "email": "<%= settings.email %>",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "<%= settings.address_street %>",
+      "addressLocality": "<%= settings.address_locality %>",
+      "postalCode": "<%= settings.address_postcode %>",
+      "addressCountry": "IE"
+    },
+    "openingHours": "<%= settings.opening_hours %>",
+    "foundingDate": "<%= settings.founding_year %>",
+    "description": "Custom t-shirt printing, hoodies, hats, mugs and workwear. Serving Dublin and all of Ireland since 1994.",
+    "priceRange": "€€",
+    "areaServed": ["Dublin", "Cork", "Limerick", "Galway", "Waterford", "Ireland"]
+  }
+  </script>
+  <% } %>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <!-- Hero -->
+  <section class="hero halftone">
+    <div class="hero__slideshow">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <% const img = images['hero-slide-' + i]; %>
+        <% if (img) { %>
+        <div class="hero__slide<%= i === 1 ? ' hero__slide--active' : '' %>">
+          <img src="<%= img.file_path %>" alt="<%= img.alt_text %>" loading="<%= i === 1 ? 'eager' : 'lazy' %>" width="<%= img.width %>" height="<%= img.height %>"<%= i === 1 ? ' fetchpriority="high"' : '' %>>
+        </div>
+        <% } %>
+      <% } %>
+    </div>
+    <div class="hero__gradient"></div>
+    <div class="hero__stripe"></div>
+
+    <div class="container" style="display:flex; align-items:center; gap:var(--space-4xl); position:relative; z-index:2;">
+      <div class="hero__content" style="flex:1;">
+        <div class="hero__badge">
+          <span class="hero__badge-dot"></span>
+          <%= content.hero.badge %>
+        </div>
+
+        <h1 class="hero__title">
+          <%= content.hero.title_line1 %><br>
+          <span class="highlight"><%- content.hero.title_line2 %></span>
+        </h1>
+
+        <p class="hero__subtitle"><%= content.hero.subtitle %></p>
+
+        <div class="hero__actions">
+          <a href="/quote" class="btn btn--primary btn--lg"><%= content.hero.cta_primary %></a>
+          <a href="/products" class="btn btn--secondary btn--lg"><%= content.hero.cta_secondary %></a>
+        </div>
+
+        <div class="hero__stats">
+          <div>
+            <div class="hero__stat-number"><%= content.hero.stat1_number %></div>
+            <div class="hero__stat-label"><%= content.hero.stat1_label %></div>
+          </div>
+          <div>
+            <div class="hero__stat-number"><%= content.hero.stat2_number %></div>
+            <div class="hero__stat-label"><%= content.hero.stat2_label %></div>
+          </div>
+          <div>
+            <div class="hero__stat-number"><%= content.hero.stat3_number %></div>
+            <div class="hero__stat-label"><%= content.hero.stat3_label %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <section class="trust-bar">
+    <div class="container">
+      <div class="trust-bar__grid">
+        <% for (let i = 1; i <= 6; i++) { %>
+        <div class="trust-bar__item reveal<%= i > 1 ? ' reveal--delay-' + (i-1) : '' %>">
+          <div class="trust-bar__icon"><%- content.trust['item' + i + '_icon'] %></div>
+          <div class="trust-bar__label"><%- content.trust['item' + i + '_label'] %></div>
+          <div class="trust-bar__sublabel"><%- content.trust['item' + i + '_sublabel'] %></div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="section" id="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= content.products.label %></div>
+        <h2 class="section-header__title"><%= content.products.title %></h2>
+        <p class="section-header__desc"><%= content.products.desc %></p>
+      </div>
+
+      <div class="grid grid-3">
+        <% const cardKeys = ['tshirts', 'hoodies', 'hats', 'mugs', 'bags', 'workwear']; %>
+        <% const cardImages = ['card-tshirts', 'card-hoodies', 'card-hats', 'card-mugs', 'card-bags', 'card-workwear']; %>
+        <% cardKeys.forEach((key, i) => { %>
+        <div class="product-card reveal<%= i % 3 > 0 ? ' reveal--delay-' + (i % 3) : '' %>">
+          <div class="product-card__image">
+            <% const cardImg = images[cardImages[i]]; %>
+            <img src="<%= cardImg ? cardImg.file_path : '' %>" alt="<%= cardImg ? cardImg.alt_text : '' %>" loading="lazy">
+            <div class="product-card__overlay"></div>
+            <% if (content.product_cards[key + '_badge']) { %>
+            <div class="product-card__badge"><%= content.product_cards[key + '_badge'] %></div>
+            <% } %>
+          </div>
+          <div class="product-card__body">
+            <h3 class="product-card__title"><%- content.product_cards[key + '_title'] %></h3>
+            <p class="product-card__desc"><%- content.product_cards[key + '_desc'] %></p>
+            <div class="product-card__price"><%- content.product_cards[key + '_price'] %></div>
+          </div>
+          <a href="/products#<%= key %>" class="product-card__link" aria-label="View <%- content.product_cards[key + '_title'] %>"></a>
+        </div>
+        <% }); %>
+      </div>
+
+      <div style="text-align:center; margin-top:var(--space-2xl);">
+        <a href="/products" class="btn btn--secondary">View All Products</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who We Serve -->
+  <section class="section" style="background: var(--surface);">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-header__label"><%= content.markets.label %></div>
+        <h2 class="section-header__title"><%= content.markets.title %></h2>
+        <p class="section-header__desc"><%= content.markets.desc %></p>
+      </div>
+
+      <div class="markets-grid">
+        <% for (let i = 1; i <= 6; i++) { %>
+        <div class="market-card reveal<%= i > 1 ? ' reveal--delay-' + (i-1) : '' %>">
+          <div class="market-card__icon"><%- content.markets['item' + i + '_icon'] %></div>
+          <h3 class="market-card__title"><%- content.markets['item' + i + '_title'] %></h3>
+          <p class="market-card__desc"><%- content.markets['item' + i + '_desc'] %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- How We Print -->
+  <section class="section" id="services-preview">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= content.services_preview.label %></div>
+        <h2 class="section-header__title"><%- content.services_preview.title %></h2>
+        <p class="section-header__desc"><%= content.services_preview.desc %></p>
+      </div>
+
+      <div class="grid grid-3">
+        <% for (let i = 1; i <= 6; i++) { %>
+        <div class="service-card reveal<%= i % 3 > 1 ? ' reveal--delay-' + ((i-1) % 3) : (i % 3 === 0 ? ' reveal--delay-2' : '') %>">
+          <div class="service-card__icon"><%- content.services_preview['item' + i + '_icon'] %></div>
+          <h3 class="service-card__title"><%- content.services_preview['item' + i + '_title'] %></h3>
+          <p class="service-card__desc"><%- content.services_preview['item' + i + '_desc'] %></p>
+        </div>
+        <% } %>
+      </div>
+
+      <div style="text-align:center; margin-top:var(--space-2xl);">
+        <a href="/services" class="btn btn--ghost">Learn more about our printing methods </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section testimonials">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-header__label"><%= content.testimonials.label %></div>
+        <h2 class="section-header__title"><%= content.testimonials.title %></h2>
+      </div>
+
+      <div class="grid grid-3">
+        <% for (let i = 1; i <= 3; i++) { %>
+        <div class="testimonial-card reveal<%= i > 1 ? ' reveal--delay-' + (i-1) : '' %>">
+          <div class="testimonial-card__stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="testimonial-card__text"><%= content.testimonials['item' + i + '_text'] %></p>
+          <div class="testimonial-card__author"><%= content.testimonials['item' + i + '_author'] %></div>
+          <div class="testimonial-card__role"><%= content.testimonials['item' + i + '_role'] %></div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location CTA -->
+  <section class="section--sm">
+    <div class="container">
+      <div class="location-banner reveal">
+        <div class="flex-between" style="flex-wrap:wrap; gap:var(--space-lg);">
+          <div>
+            <h3><%= content.location_banner.title %></h3>
+            <p class="text-muted" style="margin-top:var(--space-xs);"><%- content.location_banner.desc %></p>
+          </div>
+          <a href="/quote" class="btn btn--primary">Request a Quote</a>
+        </div>
+        <div class="location-banner__cities">
+          <a href="/locations/dublin" class="location-banner__city">Dublin</a>
+          <a href="/locations/cork" class="location-banner__city">Cork</a>
+          <a href="/locations/galway" class="location-banner__city">Galway</a>
+          <a href="/locations/limerick" class="location-banner__city">Limerick</a>
+          <a href="/locations/waterford" class="location-banner__city">Waterford</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-section__inner reveal">
+        <h2><%= content.cta.title %></h2>
+        <p><%= content.cta.desc %></p>
+        <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+          <a href="/quote" class="btn btn--lg" style="background:white; color:var(--bg);">Get a Free Quote</a>
+          <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--lg btn--secondary" style="border-color:rgba(255,255,255,0.3); color:white;">Call <%= settings.phone_primary %></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

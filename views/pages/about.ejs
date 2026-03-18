@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head><%- include('../partials/head') %></head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> About</div>
+      <h1><%= content.hero.title_prefix %> <span class="text-ink"><%= content.hero.title_highlight %></span></h1>
+      <p><%= content.hero.desc %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:var(--space-4xl); align-items:center;">
+        <div class="reveal">
+          <div class="section-header__label"><%= content.story.label %></div>
+          <h2><%= content.story.title %></h2>
+          <p style="color:var(--text-muted); margin-top:var(--space-lg); line-height:1.8;"><%= content.story.para1 %></p>
+          <p style="color:var(--text-muted); margin-top:var(--space-md); line-height:1.8;"><%= content.story.para2 %></p>
+          <p style="color:var(--text-muted); margin-top:var(--space-md); line-height:1.8;"><%= content.story.para3 %></p>
+        </div>
+        <div class="reveal reveal--delay-1" style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden;">
+          <% const aboutImg = images['about-printing']; %>
+          <img src="<%= aboutImg ? aboutImg.file_path : '' %>" alt="<%= aboutImg ? aboutImg.alt_text : '' %>" style="width:100%; height:400px; object-fit:cover;" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= content.timeline.label %></div>
+        <h2 class="section-header__title"><%= content.timeline.title %></h2>
+      </div>
+      <div class="about-timeline">
+        <% for (let i = 1; i <= 4; i++) { %>
+        <div class="about-timeline__item reveal">
+          <div class="about-timeline__year"><%= content.timeline['item' + i + '_year'] %></div>
+          <h3 class="about-timeline__title"><%- content.timeline['item' + i + '_title'] %></h3>
+          <p class="about-timeline__desc"><%- content.timeline['item' + i + '_desc'] %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-header__label"><%= content.values.label %></div>
+        <h2 class="section-header__title"><%= content.values.title %></h2>
+      </div>
+      <div class="values-grid">
+        <% for (let i = 1; i <= 6; i++) { %>
+        <div class="value-card reveal<%= i > 1 ? ' reveal--delay-' + (i-1) : '' %>">
+          <h3 class="value-card__title"><%= content.values['item' + i + '_title'] %></h3>
+          <p class="value-card__desc"><%= content.values['item' + i + '_desc'] %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-section__inner reveal">
+        <h2><%= content.cta.title %></h2>
+        <p><%= content.cta.desc %></p>
+        <a href="/quote" class="btn btn--lg" style="background:white; color:var(--bg);">Get a Free Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head><%- include('../partials/head') %></head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="page-hero halftone">
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> How We Print</div>
+      <h1><%= content.hero.title_prefix %> <span class="text-ink"><%= content.hero.title_highlight %></span></h1>
+      <p><%= content.hero.desc %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= content.process.label %></div>
+        <h2 class="section-header__title"><%= content.process.title %></h2>
+        <p class="section-header__desc"><%= content.process.desc %></p>
+      </div>
+      <div class="process-steps">
+        <% for (let i = 1; i <= 4; i++) { %>
+        <div class="process-step reveal">
+          <div class="process-step__number"></div>
+          <div>
+            <h3 class="process-step__title"><%- content.process['step' + i + '_title'] %></h3>
+            <p class="process-step__desc"><%- content.process['step' + i + '_desc'] %></p>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-header__label"><%= content.methods.label %></div>
+        <h2 class="section-header__title"><%= content.methods.title %></h2>
+        <p class="section-header__desc"><%= content.methods.desc %></p>
+      </div>
+      <div class="grid grid-2" style="gap:var(--space-2xl);">
+        <% const methodKeys = ['screen', 'dtf', 'vinyl', 'transfer', 'sublimation', 'label']; %>
+        <% methodKeys.forEach((key, i) => { %>
+        <% const m = content['method_' + key]; %>
+        <div class="service-card reveal<%= i % 2 === 1 ? ' reveal--delay-1' : '' %>">
+          <div class="service-card__icon"><%- m.icon %></div>
+          <h3 class="service-card__title"><%- m.title %></h3>
+          <p class="service-card__desc"><%- m.desc %></p>
+          <div style="margin-top:var(--space-md); font-size:0.85rem; color:var(--text-muted);">
+            <strong style="color:var(--text);">Best for:</strong> <%- m.best_for %><br>
+            <strong style="color:var(--text);">Min. order:</strong> <%= m.min_order %><br>
+            <strong style="color:var(--text);"><%= m.colors_label %>:</strong> <%- m.colors %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-section__inner reveal">
+        <h2><%= content.cta.title %></h2>
+        <p><%= content.cta.desc %></p>
+        <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+          <a href="/quote" class="btn btn--lg" style="background:white; color:var(--bg);">Get a Free Quote</a>
+          <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--lg btn--secondary" style="border-color:rgba(255,255,255,0.3); color:white;">Call <%= settings.phone_primary %></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

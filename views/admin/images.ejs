@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Manager | Admin</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <%- include('_nav') %>
+  <main class="admin-main">
+    <h1>Image Manager</h1>
+    <p class="admin-subtitle">All images are automatically converted to WebP and resized to fit their placeholder. Upload any image format (JPEG, PNG, etc.).</p>
+
+    <div class="image-grid">
+      <% images.forEach(img => { %>
+      <div class="image-card" id="img-<%= img.slot %>">
+        <div class="image-card__preview">
+          <img src="<%= img.file_path %>" alt="<%= img.alt_text %>" loading="lazy">
+        </div>
+        <div class="image-card__info">
+          <div class="image-card__slot"><%= img.slot %></div>
+          <div class="image-card__dims"><%= img.width %>x<%= img.height %></div>
+          <div class="image-card__alt">
+            <input type="text" value="<%= img.alt_text %>" placeholder="Alt text" class="admin-input admin-input--sm" data-slot="<%= img.slot %>" data-field="alt">
+          </div>
+          <form class="image-card__upload" data-slot="<%= img.slot %>">
+            <input type="file" accept="image/*" class="image-file-input" id="file-<%= img.slot %>">
+            <label for="file-<%= img.slot %>" class="btn-admin btn-admin--sm">Choose File</label>
+            <button type="submit" class="btn-admin btn-admin--primary btn-admin--sm">Upload</button>
+          </form>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </main>
+
+  <script>
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast toast--' + type + ' toast--visible';
+      setTimeout(() => t.classList.remove('toast--visible'), 3000);
+    }
+
+    document.querySelectorAll('.image-card__upload').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const slot = form.dataset.slot;
+        const fileInput = form.querySelector('.image-file-input');
+        if (!fileInput.files.length) {
+          showToast('Please select a file first', 'error');
+          return;
+        }
+
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Uploading...';
+        btn.disabled = true;
+
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+
+        try {
+          const res = await fetch('/api/images/' + slot, { method: 'POST', body: formData });
+          const data = await res.json();
+          if (data.success) {
+            const card = document.getElementById('img-' + slot);
+            const img = card.querySelector('.image-card__preview img');
+            img.src = data.data.file_path + '?t=' + Date.now();
+            const dims = card.querySelector('.image-card__dims');
+            dims.textContent = data.data.width + 'x' + data.data.height;
+            showToast('Image uploaded and optimized!', 'success');
+          } else {
+            showToast('Error: ' + data.error, 'error');
+          }
+        } catch (err) {
+          showToast('Upload failed: ' + err.message, 'error');
+        }
+
+        btn.textContent = 'Upload';
+        btn.disabled = false;
+        fileInput.value = '';
+      });
+    });
+  </script>
+</body>
+</html>

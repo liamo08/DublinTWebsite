@@ -1,0 +1,60 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="/" class="nav__logo">
+          <% if (settings.logo_type === 'image' && settings.logo_image_path) { %>
+            <img src="<%= settings.logo_image_path %>" alt="<%= settings.site_name %>" style="height:36px; width:auto;">
+          <% } else { %>
+            <div class="nav__logo-mark"><%= settings.logo_text %></div>
+          <% } %>
+          <span><%= settings.logo_subtext %></span>
+        </a>
+        <p class="footer__brand-desc"><%= settings.footer_brand_desc %></p>
+        <div class="footer__social">
+          <a href="<%= settings.instagram_url %>" aria-label="Instagram" target="_blank" rel="noopener">&#128247;</a>
+          <a href="<%= settings.whatsapp_url %>" aria-label="WhatsApp" target="_blank" rel="noopener">&#128172;</a>
+          <a href="mailto:<%= settings.email %>" aria-label="Email">&#9993;</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer__heading">Products</h4>
+        <div class="footer__links">
+          <a href="/products#tshirts" class="footer__link">Custom T-Shirts</a>
+          <a href="/products#hoodies" class="footer__link">Hoodies &amp; Sweatshirts</a>
+          <a href="/products#hats" class="footer__link">Hats &amp; Caps</a>
+          <a href="/products#mugs" class="footer__link">Mugs &amp; Cups</a>
+          <a href="/products#bags" class="footer__link">Bags &amp; Totes</a>
+          <a href="/products#workwear" class="footer__link">Hi-Vis &amp; Workwear</a>
+          <a href="/products#jerseys" class="footer__link">Sports Jerseys</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer__heading">Company</h4>
+        <div class="footer__links">
+          <a href="/about" class="footer__link">About Us</a>
+          <a href="/services" class="footer__link">How We Print</a>
+          <a href="/contact" class="footer__link">Contact</a>
+          <a href="/quote" class="footer__link">Get a Quote</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer__heading">Locations</h4>
+        <div class="footer__links">
+          <a href="/locations/dublin" class="footer__link">Dublin</a>
+          <a href="/locations/cork" class="footer__link">Cork</a>
+          <a href="/locations/galway" class="footer__link">Galway</a>
+          <a href="/locations/limerick" class="footer__link">Limerick</a>
+          <a href="/locations/waterford" class="footer__link">Waterford</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div>&copy; <%= currentYear %> <%= settings.site_name %>. All rights reserved.</div>
+      <div>
+        <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" style="color:var(--text-muted);"><%= settings.phone_primary %></a> &bull;
+        <a href="mailto:<%= settings.email %>" style="color:var(--text-muted);"><%= settings.email %></a>
+      </div>
+    </div>
+  </div>
+</footer>

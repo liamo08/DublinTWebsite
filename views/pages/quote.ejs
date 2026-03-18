@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head><%- include('../partials/head') %></head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> Get a Quote</div>
+      <h1><%= content.hero.title_prefix %> <span class="text-ink"><%= content.hero.title_highlight %></span></h1>
+      <p><%= content.hero.desc %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:var(--space-4xl);">
+        <div class="reveal">
+          <form class="form" action="#" method="POST">
+            <div class="form__row">
+              <div class="form__group">
+                <label class="form__label" for="quote-name">Your Name *</label>
+                <input class="form__input" type="text" id="quote-name" name="name" required placeholder="John Murphy">
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="quote-email">Email Address *</label>
+                <input class="form__input" type="email" id="quote-email" name="email" required placeholder="john@example.com">
+              </div>
+            </div>
+            <div class="form__row">
+              <div class="form__group">
+                <label class="form__label" for="quote-phone">Phone Number *</label>
+                <input class="form__input" type="tel" id="quote-phone" name="phone" required placeholder="086 123 4567">
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="quote-company">Company / Organisation</label>
+                <input class="form__input" type="text" id="quote-company" name="company" placeholder="Optional">
+              </div>
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="quote-product">Product Type *</label>
+              <select class="form__select" id="quote-product" name="product" required>
+                <option value="">Select a product...</option>
+                <option value="tshirts">Custom T-Shirts</option>
+                <option value="hoodies">Hoodies &amp; Sweatshirts</option>
+                <option value="hats">Hats &amp; Caps</option>
+                <option value="mugs">Mugs &amp; Cups</option>
+                <option value="bags">Bags &amp; Totes</option>
+                <option value="workwear">Hi-Vis &amp; Workwear</option>
+                <option value="jerseys">Sports Jerseys</option>
+                <option value="other">Other / Multiple Products</option>
+              </select>
+            </div>
+            <div class="form__row">
+              <div class="form__group">
+                <label class="form__label" for="quote-quantity">Quantity *</label>
+                <select class="form__select" id="quote-quantity" name="quantity" required>
+                  <option value="">Estimated quantity...</option>
+                  <option value="1-10">1 &ndash; 10</option>
+                  <option value="11-25">11 &ndash; 25</option>
+                  <option value="26-50">26 &ndash; 50</option>
+                  <option value="51-100">51 &ndash; 100</option>
+                  <option value="101-250">101 &ndash; 250</option>
+                  <option value="251-500">251 &ndash; 500</option>
+                  <option value="500+">500+</option>
+                </select>
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="quote-date">When Do You Need Them?</label>
+                <input class="form__input" type="date" id="quote-date" name="date">
+              </div>
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="quote-details">Project Details *</label>
+              <textarea class="form__textarea" id="quote-details" name="details" required placeholder="Tell us about your project: colours, design ideas, print locations (front/back/sleeve), any special requirements..."></textarea>
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="quote-artwork">Have Artwork Ready?</label>
+              <select class="form__select" id="quote-artwork" name="artwork">
+                <option value="no">No &ndash; I need design help (free!)</option>
+                <option value="rough">I have a rough idea / sketch</option>
+                <option value="yes">Yes &ndash; I have print-ready files</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn--primary btn--lg" style="width:100%;">Send Quote Request</button>
+            <p style="font-size:0.8rem; color:var(--text-dim); text-align:center;"><%= content.form.response_time %></p>
+          </form>
+        </div>
+
+        <div class="reveal reveal--delay-1">
+          <div style="position:sticky; top:calc(var(--nav-height) + var(--space-xl));">
+            <h3 style="margin-bottom:var(--space-xl);"><%= content.sidebar.title %></h3>
+            <div class="process-steps">
+              <% for (let i = 1; i <= 3; i++) { %>
+              <div class="process-step" style="grid-template-columns:48px 1fr; gap:var(--space-md); padding:var(--space-lg) 0;">
+                <div class="process-step__number" style="font-size:1.5rem;"></div>
+                <div>
+                  <h4 class="process-step__title" style="font-size:1rem;"><%- content.sidebar['step' + i + '_title'] %></h4>
+                  <p class="process-step__desc" style="font-size:0.85rem;"><%= content.sidebar['step' + i + '_desc'] %></p>
+                </div>
+              </div>
+              <% } %>
+            </div>
+
+            <div style="margin-top:var(--space-2xl); padding:var(--space-xl); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);">
+              <h4 style="margin-bottom:var(--space-md);"><%= content.sidebar.prefer_title %></h4>
+              <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:var(--space-lg);"><%= content.sidebar.prefer_desc %></p>
+              <div style="display:flex; flex-direction:column; gap:var(--space-sm);">
+                <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--secondary" style="justify-content:flex-start;">&#128222; <%= settings.phone_primary %></a>
+                <a href="<%= settings.whatsapp_url %>" class="btn btn--whatsapp" target="_blank" rel="noopener" style="justify-content:flex-start;">&#128172; WhatsApp Us</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

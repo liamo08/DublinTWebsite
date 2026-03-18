@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Admin</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <%- include('_nav') %>
+  <main class="admin-main">
+    <h1>Dashboard</h1>
+    <p class="admin-subtitle">Manage your website content, images, and settings.</p>
+
+    <div class="admin-grid">
+      <div class="admin-card">
+        <h3>Content Editor</h3>
+        <p>Edit text on every page of your site.</p>
+        <div class="admin-card__links">
+          <% const pageLabels = { index: 'Home', products: 'Products', services: 'How We Print', about: 'About', contact: 'Contact', quote: 'Quote', 'locations/dublin': 'Dublin', 'locations/cork': 'Cork', 'locations/galway': 'Galway', 'locations/limerick': 'Limerick', 'locations/waterford': 'Waterford' }; %>
+          <% pages.forEach(p => { %>
+          <a href="/admin/content/<%= p.replace(/\//g, '-') %>" class="admin-link"><%= pageLabels[p] || p %></a>
+          <% }); %>
+        </div>
+      </div>
+
+      <a href="/admin/images" class="admin-card admin-card--clickable">
+        <h3>Images</h3>
+        <p>Upload and manage all site images. <%= imageCount %> image slots.</p>
+        <span class="admin-card__action">Manage Images &rarr;</span>
+      </a>
+
+      <a href="/admin/theme" class="admin-card admin-card--clickable">
+        <h3>Colour Scheme</h3>
+        <p>Change the site's colours with live preview.</p>
+        <span class="admin-card__action">Edit Colours &rarr;</span>
+      </a>
+
+      <a href="/admin/logo" class="admin-card admin-card--clickable">
+        <h3>Logo</h3>
+        <p>Change the site logo (text or uploaded image).</p>
+        <span class="admin-card__action">Edit Logo &rarr;</span>
+      </a>
+
+      <a href="/admin/settings" class="admin-card admin-card--clickable">
+        <h3>Site Settings</h3>
+        <p>Phone numbers, email, address, social links.</p>
+        <span class="admin-card__action">Edit Settings &rarr;</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

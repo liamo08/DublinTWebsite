@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Dublin T-Shirt Print</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-login">
+  <div class="login-card">
+    <div class="login-logo">DT</div>
+    <h1>Admin Panel</h1>
+    <p>Dublin T-Shirt Print CMS</p>
+    <% if (error) { %>
+    <div class="alert alert--error"><%= error %></div>
+    <% } %>
+    <form method="POST" action="/admin/login">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="btn-admin btn-admin--primary">Log In</button>
+    </form>
+  </div>
+</body>
+</html>

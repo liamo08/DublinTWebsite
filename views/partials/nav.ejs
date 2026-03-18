@@ -1,0 +1,90 @@
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">
+      <% if (settings.logo_type === 'image' && settings.logo_image_path) { %>
+        <img src="<%= settings.logo_image_path %>" alt="<%= settings.site_name %>" style="height:36px; width:auto;">
+      <% } else { %>
+        <div class="nav__logo-mark"><%= settings.logo_text %></div>
+      <% } %>
+      <span><%= settings.logo_subtext %></span>
+    </a>
+
+    <div class="nav__links">
+      <a href="/" class="nav__link<%= page === 'index' ? ' nav__link--active' : '' %>">Home</a>
+      <div class="nav__link nav__link--dropdown<%= page === 'products' ? ' nav__link--active' : '' %>" style="position:relative">
+        Products
+        <svg viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <div class="nav__dropdown">
+          <a href="/products#tshirts">Custom T-Shirts</a>
+          <a href="/products#hoodies">Hoodies &amp; Sweatshirts</a>
+          <a href="/products#hats">Hats &amp; Caps</a>
+          <a href="/products#mugs">Mugs &amp; Cups</a>
+          <a href="/products#bags">Bags &amp; Totes</a>
+          <a href="/products#workwear">Hi-Vis &amp; Workwear</a>
+          <a href="/products#jerseys">Sports Jerseys</a>
+        </div>
+      </div>
+      <a href="/services" class="nav__link<%= page === 'services' ? ' nav__link--active' : '' %>">How We Print</a>
+      <div class="nav__link nav__link--dropdown" style="position:relative">
+        Locations
+        <svg viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        <div class="nav__dropdown">
+          <a href="/locations/dublin">Dublin</a>
+          <a href="/locations/cork">Cork</a>
+          <a href="/locations/galway">Galway</a>
+          <a href="/locations/limerick">Limerick</a>
+          <a href="/locations/waterford">Waterford</a>
+        </div>
+      </div>
+      <a href="/about" class="nav__link<%= page === 'about' ? ' nav__link--active' : '' %>">About</a>
+      <a href="/contact" class="nav__link<%= page === 'contact' ? ' nav__link--active' : '' %>">Contact</a>
+    </div>
+
+    <a href="/quote" class="nav__cta btn btn--primary">Get a Quote</a>
+
+    <button class="nav__hamburger" aria-label="Toggle menu">
+      <span class="nav__hamburger-label">Menu</span>
+      <div class="nav__hamburger-icon"><span></span><span></span><span></span></div>
+    </button>
+  </div>
+</nav>
+
+<div class="nav__mobile">
+  <div class="nav__mobile-links">
+    <a href="/" class="nav__mobile-link">Home <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    <a href="/products" class="nav__mobile-link">Products <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    <div class="nav__mobile-section">
+      <div class="nav__mobile-section-title">Product Range</div>
+      <div class="nav__mobile-sub">
+        <a href="/products#tshirts">Custom T-Shirts</a>
+        <a href="/products#hoodies">Hoodies &amp; Sweatshirts</a>
+        <a href="/products#hats">Hats &amp; Caps</a>
+        <a href="/products#mugs">Mugs &amp; Cups</a>
+        <a href="/products#bags">Bags &amp; Totes</a>
+        <a href="/products#workwear">Hi-Vis &amp; Workwear</a>
+        <a href="/products#jerseys">Sports Jerseys</a>
+      </div>
+    </div>
+    <a href="/services" class="nav__mobile-link">How We Print <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    <a href="/about" class="nav__mobile-link">About Us <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    <a href="/contact" class="nav__mobile-link">Contact <svg viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg></a>
+    <div class="nav__mobile-section">
+      <div class="nav__mobile-section-title">Locations</div>
+      <div class="nav__mobile-sub">
+        <a href="/locations/dublin">Dublin</a>
+        <a href="/locations/cork">Cork</a>
+        <a href="/locations/galway">Galway</a>
+        <a href="/locations/limerick">Limerick</a>
+        <a href="/locations/waterford">Waterford</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav__mobile-footer">
+    <a href="/quote" class="btn btn--primary">Get a Free Quote</a>
+    <div class="nav__mobile-contact">
+      <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>">&#128222; Call Us</a>
+      <a href="<%= settings.whatsapp_url %>" target="_blank" rel="noopener">&#128172; WhatsApp</a>
+      <a href="mailto:<%= settings.email %>">&#9993; Email</a>
+    </div>
+  </div>
+</div>

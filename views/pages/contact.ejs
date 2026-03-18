@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head><%- include('../partials/head') %></head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> Contact</div>
+      <h1><%= content.hero.title_prefix %> <span class="text-ink"><%= content.hero.title_highlight %></span></h1>
+      <p><%= content.hero.desc %></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-4" style="margin-bottom:var(--space-4xl);">
+        <div class="contact-card reveal">
+          <div class="contact-card__icon">&#128222;</div>
+          <h3 class="contact-card__title">Phone</h3>
+          <div class="contact-card__text">
+            <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>"><%= settings.phone_primary %></a><br>
+            <a href="tel:<%= settings.phone_secondary.replace(/-/g, '') %>"><%= settings.phone_secondary %></a>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal--delay-1">
+          <div class="contact-card__icon">&#9993;</div>
+          <h3 class="contact-card__title">Email</h3>
+          <div class="contact-card__text">
+            <a href="mailto:<%= settings.email %>"><%= settings.email %></a>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal--delay-2">
+          <div class="contact-card__icon">&#128172;</div>
+          <h3 class="contact-card__title">WhatsApp</h3>
+          <div class="contact-card__text">
+            <a href="<%= settings.whatsapp_url %>" target="_blank" rel="noopener">Message us on WhatsApp</a><br>
+            Quick replies guaranteed
+          </div>
+        </div>
+        <div class="contact-card reveal reveal--delay-3">
+          <div class="contact-card__icon">&#128205;</div>
+          <h3 class="contact-card__title">Address</h3>
+          <div class="contact-card__text">
+            <%= settings.address_street %>, <%= settings.address_locality %><br>
+            <%= settings.address_postcode %>, <%= settings.address_country %><br>
+            <span style="font-size:0.8rem; color:var(--text-dim);"><%= settings.opening_hours_display %></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="gap:var(--space-3xl);">
+        <div class="reveal">
+          <h2 style="margin-bottom:var(--space-xl);"><%- content.form.title %></h2>
+          <form class="form" action="#" method="POST">
+            <div class="form__row">
+              <div class="form__group">
+                <label class="form__label" for="contact-name">Your Name *</label>
+                <input class="form__input" type="text" id="contact-name" name="name" required placeholder="John Murphy">
+              </div>
+              <div class="form__group">
+                <label class="form__label" for="contact-email">Email Address *</label>
+                <input class="form__input" type="email" id="contact-email" name="email" required placeholder="john@example.com">
+              </div>
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="contact-phone">Phone Number</label>
+              <input class="form__input" type="tel" id="contact-phone" name="phone" placeholder="086 123 4567">
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="contact-subject">Subject</label>
+              <select class="form__select" id="contact-subject" name="subject">
+                <option value="">Select a topic...</option>
+                <option value="quote">Request a Quote</option>
+                <option value="order">Existing Order Query</option>
+                <option value="artwork">Artwork / Design Help</option>
+                <option value="general">General Enquiry</option>
+              </select>
+            </div>
+            <div class="form__group">
+              <label class="form__label" for="contact-message">Your Message *</label>
+              <textarea class="form__textarea" id="contact-message" name="message" required placeholder="Tell us about your project..."></textarea>
+            </div>
+            <button type="submit" class="btn btn--primary btn--lg">Send Message</button>
+          </form>
+        </div>
+        <div class="reveal reveal--delay-1">
+          <h2 style="margin-bottom:var(--space-xl);"><%- content.map.title %></h2>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; height:100%; min-height:400px;">
+            <iframe src="<%= settings.maps_embed_url %>" width="100%" height="100%" style="border:0; min-height:400px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="<%= settings.site_name %> location map"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--sm">
+    <div class="container">
+      <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+        <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--primary btn--lg">&#128222; Call <%= settings.phone_primary %></a>
+        <a href="<%= settings.whatsapp_url %>" class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener">&#128172; WhatsApp Us</a>
+        <a href="mailto:<%= settings.email %>" class="btn btn--secondary btn--lg">&#9993; Email Us</a>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

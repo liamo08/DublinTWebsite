@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head><%- include('../partials/head') %></head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="page-hero halftone">
+    <div class="page-hero__bg">
+      <% const heroImg = images['products-hero']; %>
+      <img src="<%= heroImg ? heroImg.file_path : '' %>" alt="<%= heroImg ? heroImg.alt_text : '' %>" loading="eager">
+    </div>
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> Products</div>
+      <h1><%= content.hero.title_prefix %> <span class="text-ink"><%= content.hero.title_highlight %></span></h1>
+      <p><%= content.hero.desc %></p>
+    </div>
+  </section>
+
+  <section style="background:var(--surface); border-bottom:1px solid var(--border); padding:var(--space-lg) 0; position:sticky; top:var(--nav-height); z-index:100; backdrop-filter:blur(12px);">
+    <div class="container">
+      <div style="display:flex; gap:var(--space-sm); overflow-x:auto; padding-bottom:6px; -webkit-overflow-scrolling:touch; scrollbar-width:none;">
+        <a href="#tshirts" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">T-Shirts</a>
+        <a href="#hoodies" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Hoodies</a>
+        <a href="#hats" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Hats &amp; Caps</a>
+        <a href="#mugs" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Mugs &amp; Cups</a>
+        <a href="#bags" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Bags &amp; Totes</a>
+        <a href="#workwear" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Workwear</a>
+        <a href="#jerseys" class="btn btn--secondary" style="padding:0.5rem 1rem; font-size:0.8rem; flex-shrink:0;">Sports Jerseys</a>
+      </div>
+    </div>
+  </section>
+
+  <% const productKeys = ['tshirts', 'hoodies', 'hats', 'mugs', 'bags', 'workwear', 'jerseys']; %>
+  <% const detailImages = ['detail-tshirts', 'detail-hoodies', 'detail-hats', 'detail-mugs', 'detail-bags', 'detail-workwear', 'detail-jerseys']; %>
+  <% productKeys.forEach((key, idx) => { %>
+  <section class="section" id="<%= key %>"<%= idx % 2 === 1 ? ' style="background:var(--surface);"' : '' %>>
+    <div class="container">
+      <div class="product-detail reveal">
+        <div class="product-detail__image">
+          <% const dImg = images[detailImages[idx]]; %>
+          <img src="<%= dImg ? dImg.file_path : '' %>" alt="<%= dImg ? dImg.alt_text : '' %>" loading="lazy">
+        </div>
+        <div class="product-detail__content">
+          <h2><%- content[key].title %></h2>
+          <p><%- content[key].desc %></p>
+          <div class="product-detail__features">
+            <% for (let f = 1; f <= 6; f++) { %>
+              <% if (content[key]['feature' + f]) { %>
+            <div class="product-detail__feature"><%- content[key]['feature' + f] %></div>
+              <% } %>
+            <% } %>
+          </div>
+          <div class="product-detail__price"><%- content[key].price %></div>
+          <a href="/quote" class="btn btn--primary"><%= content[key].cta %></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <% }); %>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-section__inner reveal">
+        <h2><%= content.cta.title %></h2>
+        <p><%= content.cta.desc %></p>
+        <a href="/quote" class="btn btn--lg" style="background:white; color:var(--bg);">Get a Free Quote</a>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

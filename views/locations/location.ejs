@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en-IE">
+<head>
+  <%- include('../partials/head') %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "<%= settings.site_name %> - <%= cityName %>",
+    "url": "<%= settings.base_url %>/locations/<%= city %>",
+    "telephone": "+353-57-915-2717",
+    "email": "<%= settings.email %>",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "<%= cityName %>",
+      "addressCountry": "IE"
+    },
+    "areaServed": { "@type": "City", "name": "<%= cityName %>" },
+    "description": "Custom t-shirt printing and personalised apparel for <%= cityName %>.",
+    "openingHours": "<%= settings.opening_hours %>",
+    "priceRange": "€€"
+  }
+  </script>
+</head>
+<body>
+  <%- include('../partials/nav') %>
+
+  <section class="location-hero">
+    <div class="location-hero__accent"></div>
+    <div class="container">
+      <div class="page-hero__breadcrumb"><a href="/">Home</a> <span>/</span> <a href="/">Locations</a> <span>/</span> <%= cityName %></div>
+      <h1>Custom T-Shirt Printing <span class="text-ink"><%= cityName %></span></h1>
+      <p style="max-width:640px; color:var(--text-muted); font-size:1.15rem; line-height:1.7; margin-top:var(--space-md);"><%- content.hero.desc %></p>
+      <div style="margin-top:var(--space-2xl); display:flex; gap:var(--space-md); flex-wrap:wrap;">
+        <a href="/quote" class="btn btn--primary btn--lg">Get a <%= cityName %> Quote</a>
+        <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--secondary btn--lg">Call <%= settings.phone_primary %></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= cityName %> Printing</div>
+        <h2>Why <%= cityName %> Businesses Choose Us</h2>
+        <p class="section-header__desc">We've been printing custom apparel for <%= cityName %> customers since 1994. Here's why they keep coming back.</p>
+      </div>
+      <div class="location-features">
+        <% for (let i = 1; i <= 3; i++) { %>
+        <div class="location-feature reveal<%= i > 1 ? ' reveal--delay-' + (i-1) : '' %>">
+          <div class="location-feature__icon"><%- content.features['item' + i + '_icon'] %></div>
+          <h3 class="location-feature__title"><%- content.features['item' + i + '_title'] %></h3>
+          <p class="location-feature__desc"><%- content.features['item' + i + '_desc'] %></p>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-header__label"><%= content.products.label %></div>
+        <h2><%= content.products.title %></h2>
+        <p class="section-header__desc"><%- content.products.desc %></p>
+      </div>
+      <div class="location-products">
+        <% const locProducts = [
+          { icon: '&#128085;', key: 'tshirts', title: 'Custom T-Shirts ' + cityName, desc: 'Premium printed tees from &euro;3.95.' },
+          { icon: '&#129509;', key: 'hoodies', title: 'Custom Hoodies ' + cityName, desc: 'Branded hoodies &amp; sweatshirts from &euro;14.95.' },
+          { icon: '&#129506;', key: 'hats', title: 'Custom Hats &amp; Caps ' + cityName, desc: 'Embroidered &amp; printed headwear from &euro;6.95.' },
+          { icon: '&#9749;', key: 'mugs', title: 'Custom Mugs ' + cityName, desc: 'Branded ceramic &amp; travel mugs from &euro;4.95.' },
+          { icon: '&#129509;', key: 'workwear', title: 'Corporate Workwear ' + cityName, desc: 'Hi-vis, polos &amp; professional wear from &euro;8.95.' },
+          { icon: '&#9917;', key: 'jerseys', title: 'Sports Jerseys ' + cityName, desc: 'GAA, soccer &amp; rugby kits from &euro;19.95.' }
+        ]; %>
+        <% locProducts.forEach((p, i) => { %>
+        <a href="/products#<%= p.key %>" class="location-product reveal<%= i % 2 === 1 ? ' reveal--delay-1' : '' %>">
+          <div class="location-product__icon"><%- p.icon %></div>
+          <div>
+            <div class="location-product__title"><%- p.title %></div>
+            <div class="location-product__desc"><%- p.desc %></div>
+          </div>
+        </a>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:var(--space-4xl); align-items:start;">
+        <div class="reveal">
+          <h2><%- content.body.title %></h2>
+          <p style="color:var(--text-muted); margin-top:var(--space-lg); line-height:1.8;"><%= content.body.para1 %></p>
+          <p style="color:var(--text-muted); margin-top:var(--space-md); line-height:1.8;"><%= content.body.para2 %></p>
+          <p style="color:var(--text-muted); margin-top:var(--space-md); line-height:1.8;"><%= content.body.para3 %></p>
+        </div>
+        <div class="reveal reveal--delay-1">
+          <h3 style="margin-bottom:var(--space-lg);"><%= content.popular.title %></h3>
+          <div style="display:flex; flex-direction:column; gap:var(--space-md);">
+            <% for (let i = 1; i <= 5; i++) { %>
+            <div style="padding:var(--space-lg); background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md);">
+              <h4 style="font-family:var(--font-heading); font-size:0.95rem; margin-bottom:4px;"><%- content.popular['item' + i + '_title'] %></h4>
+              <p style="font-size:0.85rem; color:var(--text-muted);"><%- content.popular['item' + i + '_desc'] %></p>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--surface);">
+    <div class="container">
+      <div class="section-header section-header--center reveal">
+        <div class="section-header__label"><%= cityName %> FAQ</div>
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list">
+        <% for (let i = 1; i <= 5; i++) { %>
+        <div class="faq-item reveal">
+          <button class="faq-item__question"><%- content.faq['item' + i + '_question'] %> <span class="faq-item__icon">+</span></button>
+          <div class="faq-item__answer"><p><%- content.faq['item' + i + '_answer'] %></p></div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-section__inner reveal">
+        <h2><%= content.cta.title %></h2>
+        <p><%= content.cta.desc %></p>
+        <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+          <a href="/quote" class="btn btn--lg" style="background:white; color:var(--bg);">Get a <%= cityName %> Quote</a>
+          <a href="tel:<%= settings.phone_primary.replace(/-/g, '') %>" class="btn btn--lg btn--secondary" style="border-color:rgba(255,255,255,0.3); color:white;">Call <%= settings.phone_primary %></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--sm">
+    <div class="container">
+      <p style="text-align:center; color:var(--text-muted); margin-bottom:var(--space-lg);">We also serve:</p>
+      <div style="display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap;">
+        <% otherCities.forEach(c => { %>
+        <a href="/locations/<%= c %>" class="location-banner__city"><%= c.charAt(0).toUpperCase() + c.slice(1) %></a>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

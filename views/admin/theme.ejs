@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Editor | Admin</title>
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin-body">
+  <%- include('_nav') %>
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Colour Scheme</h1>
+      <button onclick="saveTheme()" class="btn-admin btn-admin--primary" id="saveBtn">Save & Apply</button>
+    </div>
+    <p class="admin-subtitle">Changes take effect immediately on save. All site pages use these CSS variables.</p>
+
+    <div class="theme-grid">
+      <% vars.forEach(v => { %>
+      <div class="theme-var">
+        <div class="theme-var__header">
+          <label><%= v.label %></label>
+          <code><%= v.var_name %></code>
+        </div>
+        <div class="theme-var__controls">
+          <input type="color" value="<%= v.var_value %>" data-var="<%= v.var_name %>" class="theme-color-input">
+          <input type="text" value="<%= v.var_value %>" data-var="<%= v.var_name %>" class="admin-input admin-input--sm theme-text-input">
+          <div class="theme-var__swatch" style="background:<%= v.var_value %>;"></div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </main>
+
+  <script>
+    // Sync color pickers with text inputs
+    document.querySelectorAll('.theme-color-input').forEach(picker => {
+      const varName = picker.dataset.var;
+      const text = document.querySelector('.theme-text-input[data-var="' + varName + '"]');
+      const swatch = picker.closest('.theme-var').querySelector('.theme-var__swatch');
+
+      picker.addEventListener('input', () => {
+        text.value = picker.value;
+        swatch.style.background = picker.value;
+      });
+      text.addEventListener('input', () => {
+        if (/^#[0-9A-Fa-f]{6}$/.test(text.value)) {
+          picker.value = text.value;
+          swatch.style.background = text.value;
+        }
+      });
+    });
+
+    function showToast(msg, type) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = 'toast toast--' + type + ' toast--visible';
+      setTimeout(() => t.classList.remove('toast--visible'), 3000);
+    }
+
+    async function saveTheme() {
+      const btn = document.getElementById('saveBtn');
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      const vars = [];
+      document.querySelectorAll('.theme-text-input').forEach(el => {
+        vars.push({ var_name: el.dataset.var, var_value: el.value });
+      });
+
+      try {
+        const res = await fetch('/api/theme', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ vars })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast('Theme saved and applied!', 'success');
+        } else {
+          showToast('Error: ' + data.error, 'error');
+        }
+      } catch (err) {
+        showToast('Error: ' + err.message, 'error');
+      }
+
+      btn.textContent = 'Save & Apply';
+      btn.disabled = false;
+    }
+  </script>
+</body>
+</html>
